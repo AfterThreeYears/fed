@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .liner {
+      height: 200px;
+      width: 500px;
+      border-radius: 0.5em;
+      background-image: linear-gradient(red 20%, #fff 20%, #fff 40%, green 40%, green 60%, #fff 60%, #fff 80%, red 80%);
+    }
+  </style>
+</head>
+<body>
+  <div class="liner"></div>
+  <label>
+    <span class="range-label">0 rows</span>
+    <input
+      type="range"
+      value="13"
+      min="5"
+      max="100"
+      step="1"
+    />
+  </label>
+  <script>
+    const colors = ['#ccc', '#fff', '#ddd', '#fff', '#eee', '#fff'];
+    const range = document.querySelector('input[type=range]');
+    const rangeLabel = document.querySelector('.range-label');
+    const liner = document.querySelector('.liner');
+  
+    range.addEventListener('input', (e) => {
+      const value = e.target.value;
+      rednerLinear(value);
+      renderRangeLabel(value)
+    }, false);
+    
+    function rednerLinear(rows) {
+      const cl = colors.length;
+      const result = [];
+      const num = 100 / (rows);
+      let count = 0;
+      for (let i = 0; i < rows; i++) {
+        const color = colors[i % cl];
+        result.push(`${color} ${count}%`)
+        result.push(`${color} ${count += num}%`);
+      }
+      result.pop();
+      result.shift();
+      // console.log(result);
+      liner.style['background-image'] = `linear-gradient(45deg, ${result.join(', ')})`;
+    }
+  
+    function renderRangeLabel(textContent) {
+      rangeLabel.textContent = `${textContent} rows`;
+    }
+  
+    rednerLinear(range.value);
+    renderRangeLabel(range.value)
+  </script>
+</body>
+</html>
